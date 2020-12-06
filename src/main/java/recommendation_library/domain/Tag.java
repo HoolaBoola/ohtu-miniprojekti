@@ -11,23 +11,23 @@ package recommendation_library.domain;
  */
 public class Tag {
     private int id;
-    private String tagText;
+    private String text;
     
-    public Tag(int id, String tagText) {
+    public Tag(int id, String text) {
         this.id = id;
-        this.tagText = tagText;
+        this.text = text;
     }
 
-    public void setTagText(String tagText) {
-        this.tagText = tagText;
+    public void setText(String text) {
+        this.text = text;
     }
 
     public int getId() {
         return id;
     }
 
-    public String getTagText() {
-        return tagText;
+    public String getText() {
+        return text;
     }
     
 }
