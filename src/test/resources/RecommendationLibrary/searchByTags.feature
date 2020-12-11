@@ -27,7 +27,7 @@ Feature: As a user I can search a recommendation by tag
         And field to edit "eka" is entered
         And command list videos is selected
         Then app lists a recommendation with title "TitleTest", description "DescriptionTest" and url "urlTest"
-        
+
     Scenario: user can list added blog recommendations
         Given command add is selected
         When command blog is selected

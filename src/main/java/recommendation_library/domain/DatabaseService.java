@@ -320,6 +320,8 @@ public class DatabaseService {
     
     public boolean addTagToBook(String bookTitle, String tagText) {
         int bookId = dao.getBookIdByTitle(bookTitle);
+        System.err.println(bookId);
+
         dao.addTagToBook(bookId, tagText);
         return !checkIdForZero(bookId);
     }

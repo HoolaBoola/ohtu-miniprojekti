@@ -101,6 +101,7 @@ public class RecommendationApp {
     
     public boolean addTagToBook(String title, String tagText) {
         try {
+            System.err.println(title);
             return service.addTagToBook(title, tagText);
         } catch (Exception e) {
             this.io.print(e.getMessage());

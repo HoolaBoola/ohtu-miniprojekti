@@ -21,6 +21,10 @@ public class InMemoryRecommendationDao implements RecommendationDao {
     private List<BlogRecommendation> blogRecommendations;
     private List<PodcastRecommendation> podcastRecommendations;
     private List<Tag> tags;
+    private Map<Tag, List<BookRecommendation>> tagsBooks;
+    private Map<Tag, List<VideoRecommendation>> tagsVideos;
+    private Map<Tag, List<BlogRecommendation>> tagsBlogs;
+    private Map<Tag, List<PodcastRecommendation>> tagsPodcasts;
 
     public InMemoryRecommendationDao() {
         this.bookRecommendations = new ArrayList<>();
@@ -29,6 +33,10 @@ public class InMemoryRecommendationDao implements RecommendationDao {
         this.blogRecommendations = new ArrayList<>();
         this.podcastRecommendations = new ArrayList<>();
         this.tags = new ArrayList<>();
+        tagsBooks = new HashMap<>();
+        tagsBlogs = new HashMap<>();
+        tagsVideos = new HashMap<>();
+        tagsPodcasts = new HashMap<>();
     }
 
     @Override
@@ -105,7 +113,6 @@ public class InMemoryRecommendationDao implements RecommendationDao {
         map.put("title", v::setTitle);
         map.put("url", v::setUrl);
         map.put("description", v::setDescription);
-        System.err.println(fieldToBeEdited);
         map.get(fieldToBeEdited).apply(newValue);
     }
 
@@ -118,7 +125,7 @@ public class InMemoryRecommendationDao implements RecommendationDao {
         }
         return 0;
     }
-    
+
     @Override
     public int getBookIdByTitle(String title) {
         for (BookRecommendation b : bookRecommendations) {
@@ -128,7 +135,7 @@ public class InMemoryRecommendationDao implements RecommendationDao {
         }
         return 0;
     }
-    
+
     @Override
     public int getBlogIdByTitle(String title) {
         for (BlogRecommendation b : blogRecommendations) {
@@ -138,7 +145,7 @@ public class InMemoryRecommendationDao implements RecommendationDao {
         }
         return 0;
     }
-    
+
     @Override
     public int getPodcastIdByTitle(String title) {
         for (PodcastRecommendation p : podcastRecommendations) {
@@ -260,7 +267,6 @@ public class InMemoryRecommendationDao implements RecommendationDao {
         map.put("author", b::setAuthor);
         map.put("url", b::setUrl);
         map.put("description", b::setDescription);
-        System.err.println(fieldToBeEdited);
         map.get(fieldToBeEdited).apply(newValue);
     }
 
@@ -280,7 +286,6 @@ public class InMemoryRecommendationDao implements RecommendationDao {
         map.put("author", p::setAuthor);
         map.put("podcastname", p::setPodcastName);
         map.put("description", p::setDescription);
-        System.err.println(fieldToBeEdited);
         map.get(fieldToBeEdited).apply(newValue);
     }
 
@@ -358,44 +363,63 @@ public class InMemoryRecommendationDao implements RecommendationDao {
 
     @Override
     public void addTagToBook(int bookId, String tagText) {
-        loop:
+        Tag tag = getTag(tagText);
         for (BookRecommendation b : bookRecommendations) {
+
             if (b.getId() == bookId) {
+                if (tagsBooks.get(tag) == null) {
+                    tagsBooks.put(tag, new ArrayList<>());
+                }
+                tagsBooks.get(tag).add(b);
+
                 b.addTag(getTag(tagText));
-                break loop;
+                break;
             }
         }
     }
 
     @Override
     public void addTagToVideo(int videoId, String tagText) {
-        loop:
+        Tag tag = getTag(tagText);
         for (VideoRecommendation v : videoRecommendations) {
             if (v.getId() == videoId) {
+                if (tagsVideos.get(tag) == null) {
+                    tagsVideos.put(tag, new ArrayList<>());
+                }
+                tagsVideos.get(tag).add(v);
+                
                 v.addTag(getTag(tagText));
-                break loop;
+                break;
             }
-        }        
+        }
     }
 
     @Override
     public void addTagToBlog(int blogId, String tagText) {
-        loop:
+        Tag tag = getTag(tagText);
         for (BlogRecommendation b : blogRecommendations) {
             if (b.getId() == blogId) {
+                if (tagsBlogs.get(tag) == null) {
+                    tagsBlogs.put(tag, new ArrayList<>());
+                }
+                tagsBlogs.get(tag).add(b);
                 b.addTag(getTag(tagText));
-                break loop;
+                break;
             }
         }
     }
 
     @Override
     public void addTagToPodcast(int podcastId, String tagText) {
-        loop:
+        Tag tag = getTag(tagText);
         for (PodcastRecommendation p : podcastRecommendations) {
             if (p.getId() == podcastId) {
+                if (tagsPodcasts.get(tag) == null) {
+                    tagsPodcasts.put(tag, new ArrayList<>());
+                }
+                tagsPodcasts.get(tag).add(p);
                 p.addTag(getTag(tagText));
-                break loop;
+                break;
             }
         }
     }
@@ -410,30 +434,34 @@ public class InMemoryRecommendationDao implements RecommendationDao {
         return 0;
     }
 
-    // not implemented yet
     @Override
     public List<Recommendation> getRecommendationsWithTag(String tag) {
-        return null;
+        List<Recommendation> x = new ArrayList<>();
+        x.addAll(getBooksWithTag(tag));
+        x.addAll(getBlogsWithTag(tag));
+        x.addAll(getVideosWithTag(tag));
+        x.addAll(getPodcastsWithTag(tag));
+        return x;
     }
 
     @Override
     public List<BookRecommendation> getBooksWithTag(String tag) {
-        return null;
+        return tagsBooks.getOrDefault(getTag(tag), new ArrayList<>());
     }
 
     @Override
     public List<VideoRecommendation> getVideosWithTag(String tag) {
-        return null;
+        return tagsVideos.getOrDefault(getTag(tag), new ArrayList<>());
     }
 
     @Override
     public List<PodcastRecommendation> getPodcastsWithTag(String tag) {
-        return null;
+        return tagsPodcasts.getOrDefault(getTag(tag), new ArrayList<>());
     }
 
     @Override
     public List<BlogRecommendation> getBlogsWithTag(String tag) {
-        return null;
+        return tagsBlogs.getOrDefault(getTag(tag), new ArrayList<>());
     }
 
     @Override
@@ -446,14 +474,15 @@ public class InMemoryRecommendationDao implements RecommendationDao {
         Tag newTag = new Tag(this.tags.size() + 1, tagText);
         this.tags.add(newTag);
     }
-    
+
     private Tag getTag(String tagText) {
         for (Tag t : tags) {
             if (t.getTagText().equals(tagText)) {
                 return t;
             }
         }
-        return null;
+        createTag(tagText);
+        return getTag(tagText);
     }
 
 }

@@ -208,25 +208,17 @@ public class Stepdefs {
         dao = new InMemoryRecommendationDao();
         ui = new UserInterface(io, dao);
         ui.run();
+        
         assertTrue(io.getPrints().contains(expectedOutput));
     }
 
     @Then("app lists a recommendation with author {string}, title {string}, description {string}, isbn {string}, and page count {string}")
     public void listingAddedBookRecommendation(String author, String title, String description, String isbn, String pageCount) {
-        System.err.println(author);
-        System.err.println(title);
-        System.err.println(description);
-        System.err.println(isbn);
-        System.err.println(pageCount);
-        System.err.println(String.join("\n", inputLines));
         io = new StubIO(inputLines);
-        System.err.println(io);
 
         dao = new InMemoryRecommendationDao();
-        System.err.println(dao);
 
         ui = new UserInterface(io, dao);
-        System.err.println(ui);
         
         ui.run();
 
@@ -279,6 +271,8 @@ public class Stepdefs {
 
     @Then("app lists a recommendation with title {string}, author {string}, description {string} and url {string}")
     public void listingAddedBlogRecommendation(String title, String author, String description, String url) {
+        System.err.println(String.join("\n", inputLines));
+
         io = new StubIO(inputLines);
         dao = new InMemoryRecommendationDao();
         ui = new UserInterface(io, dao);
@@ -296,6 +290,7 @@ public class Stepdefs {
 
     @Then("app lists a podcast recommendation with title {string}, name {string}, author {string} and description {string}")
     public void listingAddedPodcastRecommendation(String title, String name, String author, String description) {
+
         io = new StubIO(inputLines);
         dao = new InMemoryRecommendationDao();
         ui = new UserInterface(io, dao);
