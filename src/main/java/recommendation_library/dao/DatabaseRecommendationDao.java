@@ -719,7 +719,7 @@ public class DatabaseRecommendationDao implements RecommendationDao {
     @Override
     public List<Tag> getAllTagsForBook(int bookId) {
         ArrayList<Tag> tags = new ArrayList<>();
-        String sql = "SELECT * FROM tags INNER JOIN booksTags ON tags.id = booksTags.tags_id WHERE booksTags.books_id = ?";
+        String sql = "SELECT id, tagText FROM tags INNER JOIN booksTags ON tags.id = booksTags.tags_id WHERE booksTags.books_id = ?";
         try {
             Connection connection = this.connect();
             PreparedStatement pstatement = connection.prepareStatement(sql);
@@ -738,7 +738,9 @@ public class DatabaseRecommendationDao implements RecommendationDao {
     @Override
     public List<Tag> getAllTagsForVideo(int videoId) {
         ArrayList<Tag> tags = new ArrayList<>();
+        
         String sql = "SELECT * FROM tags INNER JOIN videosTags ON tags.id = videosTags.tags_id WHERE videosTags.books_id = ?";
+
         try {
             Connection connection = this.connect();
             PreparedStatement pstatement = connection.prepareStatement(sql);
@@ -758,6 +760,7 @@ public class DatabaseRecommendationDao implements RecommendationDao {
     public List<Tag> getAllTagsForBlog(int blogId) {
         ArrayList<Tag> tags = new ArrayList<>();
         String sql = "SELECT * FROM tags INNER JOIN blogsTags ON tags.id = blogsTags.tags_id WHERE blogsTags.books_id = ?";
+
         try {
             Connection connection = this.connect();
             PreparedStatement pstatement = connection.prepareStatement(sql);
@@ -776,7 +779,9 @@ public class DatabaseRecommendationDao implements RecommendationDao {
     @Override
     public List<Tag> getAllTagsForPodcast(int podcastId) {
         ArrayList<Tag> tags = new ArrayList<>();
+
         String sql = "SELECT * FROM tags INNER JOIN podcastsTags ON tags.id = podcastsTags.tags_id WHERE podcastsTags.books_id = ?";
+
         try {
             Connection connection = this.connect();
             PreparedStatement pstatement = connection.prepareStatement(sql);
@@ -911,7 +916,7 @@ public class DatabaseRecommendationDao implements RecommendationDao {
     @Override
     public List<Tag> getAllTags() {
         ArrayList<Tag> tags = new ArrayList<>();
-        String sql = "SELECT * FROM tags";
+        String sql = "SELECT id, tagText FROM tags";
         try {
             Connection connection = this.connect();
             PreparedStatement pstatement = connection.prepareStatement(sql);
