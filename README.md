@@ -13,7 +13,7 @@ With this app you can
 # User guide
 
 Make sure you have Java installed in your computer. Download the most recent .jar file from this repository’s Tags and run it from the command prompt with: 
-*java -jar pathToJar\DownloadedJarName.jar
+java -jar pathToJar\DownloadedJarName.jar
 
 # About project
 
@@ -26,6 +26,8 @@ RecommendationLibrary is a Java-based project built using gradle. SQLite is util
 [Sprint2 Backlog](https://docs.google.com/spreadsheets/d/1UFZhNW9bPXnuyy8PhZKPM4rtDv5bZwuUcMMI8oJrBF4/edit#gid=2019524618)
 
 [Sprint3 Backlog](https://docs.google.com/spreadsheets/d/1UFZhNW9bPXnuyy8PhZKPM4rtDv5bZwuUcMMI8oJrBF4/edit#gid=1736023819)
+
+[LOPPURAPORTTI](https://docs.google.com/document/d/1R4rHjfip2k4Nl7xZlq4Uu9pzODvWWeepNWErekDrVbw/edit#)
 
 ## Class diagram
 
