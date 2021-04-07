@@ -427,7 +427,7 @@ public class InMemoryRecommendationDao implements RecommendationDao {
     @Override
     public int getTagId(String tagText) {
         for (Tag t : tags) {
-            if (t.getTagText().equals(tagText)) {
+            if (t.getText().equals(tagText)) {
                 return t.getId();
             }
         }
